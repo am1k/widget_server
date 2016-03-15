@@ -1,8 +1,8 @@
 var info = [
     {
         id: 1,
-        max: 3,
-        min: 1,
+        max: 5,
+        min: 25,
         name: 'usa/rus',
         delay: 2000
     },
