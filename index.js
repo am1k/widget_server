@@ -7,11 +7,23 @@ var schema = require('./schemas');
 var listSchema = schema.list;
 var infoSchema = schema.info;
 
+app.get('/api/basicList', function(req, res){
+
+    // позволяет делать запросы на локалхосте ide
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    //
+
+    res.send(JSON.stringify( data.map(function(item){
+       return formatData(item, listSchema);
+    })));
+});
+
+
 io.on('connection', function(socket){
     var currentRoom;
-    socket.emit('basicList', data.map(function(item){
-        return formatData(item, listSchema);
-    }));
 
     socket.on('changeCurrency', function(id){
         if(currentRoom){
@@ -131,7 +143,6 @@ var taskManager = {
         } )
     },
     check: function(){
-        //console.log(this.tasks.length)
         var now = Date.now();
         for( var i = this.tasks.length - 1; i >= 0; i-- ){
             if( this.tasks[i].time >= now ){
@@ -146,9 +157,6 @@ var taskManager = {
         this.check();
     }
 };
-
-
-
 
 
 createData();
